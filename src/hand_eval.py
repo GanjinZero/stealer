@@ -27,7 +27,9 @@ def is_suited(hand):
 def is_offsuited(hand):
     if is_pair(hand) or is_suited(hand):
         return False
-    return True
+    if len(hand) == 3:
+        return True
+    return False # For empty hand
 
 def hand_vs_hand(hand1, hand2):
     hand1_use = change_hand_order(hand1)
