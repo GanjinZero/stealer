@@ -38,9 +38,32 @@ def hero_3b_fold_4b_ev(hand, three_bet_size, villian, position):
         ev -= 1
     if position == "SB":
         ev -= small_blind
-    return str(round(ev, 2)) + " BB"
+    return round(ev, 2)
+    # return str(round(ev, 2)) + " BB"
+
+def threeb_steal_range(villian, position):
+    ev_plus_list = []
+    ev_minus_list = []
+    ev_breakeven_list = []
+
+    three_bet_size = 3
+    if position == "SB":
+        three_bet_size = 3.5
+    if position == "BB":
+        three_bet_size = 3.5
+
+    for hand in rank:
+        ev = hero_3b_fold_4b_ev(hand, three_bet_size, villian, position)
+        if ev > 0.1:
+            ev_plus_list.append(hand)
+        if ev < -0.1:
+            ev_minus_list.append(hand)
+        if -0.1 <= ev <= 0.1:
+            ev_breakeven_list.append(hand)
+    return ev_plus_list, ev_breakeven_list, ev_minus_list
 
 if __name__ == "__main__":
+    """
     villian_btn = Villian(0.42, 0.6, 0.15, 2.4)
     print(hero_3b_fold_4b_ev("KTo", three_bet_size=3, villian=villian_btn, position="SB"))
     print(hero_3b_fold_4b_ev("KTo", three_bet_size=3.5, villian=villian_btn, position="SB"))
@@ -49,3 +72,10 @@ if __name__ == "__main__":
     print(hero_3b_fold_4b_ev("KQo", three_bet_size=3, villian=villian_utg, position="MP"))
     print(hero_3b_fold_4b_ev("KQo", three_bet_size=3.5, villian=villian_utg, position="SB"))
     print(hero_3b_fold_4b_ev("KQo", three_bet_size=3, villian=villian_utg, position="BB"))
+    """
+
+    villian_btn = Villian(0.5, 0.6, 0.15, 2.4)
+    list_1, list_2, list_3 = threeb_steal_range(villian_btn, "BB")
+    print(list_1)
+    print(list_2)
+    print(list_3)
